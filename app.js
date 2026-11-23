@@ -11,7 +11,10 @@ function gas(name,...args){
   const timeout=setTimeout(()=>{cleanup();reject(new Error('The Google Sheets service did not respond. Check your Apps Script deployment and internet connection.'));},30000);
   function cleanup(){clearTimeout(timeout);window.removeEventListener('message',onMessage);}
 function onMessage(event){
-   const msg=event.data;
+  const msg=event.data;
+
+  if(!msg || msg.type !== 'ATTENDANCE_API_RESPONSE') return;
+  if(msg.requestId !== requestId) return;
    if(!msg || msg.type!=='ATTENDANCE_API_RESPONSE' || msg.requestId!==requestId) return;
    cleanup();
    if(msg.response?.ok) resolve(msg.response.data);
