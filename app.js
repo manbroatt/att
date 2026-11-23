@@ -10,8 +10,7 @@ function gas(name,...args){
   const payload=document.getElementById('gasApiPayload');
   const timeout=setTimeout(()=>{cleanup();reject(new Error('The Google Sheets service did not respond. Check your Apps Script deployment and internet connection.'));},30000);
   function cleanup(){clearTimeout(timeout);window.removeEventListener('message',onMessage);}
-  function onMessage(event){
-   if(event.source!==frame.contentWindow) return;
+function onMessage(event){
    const msg=event.data;
    if(!msg || msg.type!=='ATTENDANCE_API_RESPONSE' || msg.requestId!==requestId) return;
    cleanup();
